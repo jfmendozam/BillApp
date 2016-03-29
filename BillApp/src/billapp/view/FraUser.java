@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -644,6 +647,7 @@ public class FraUser extends javax.swing.JFrame {
      * Result set -> object
      */
     private void object2View() {
+        Timestamp timeStamp;
         User user = new User();
         try {
             user.setIdEmployee(this.getDataFile().getResultSet().getLong("idEmployee"));
@@ -651,11 +655,14 @@ public class FraUser extends javax.swing.JFrame {
             user.setPassword(this.getDataFile().getResultSet().getString("password"));
             user.setEmail(this.getDataFile().getResultSet().getString("email"));
             user.setUserLevel(this.getDataFile().getResultSet().getInt("userLevel"));
-            user.setFirstLogin(this.getDataFile().getResultSet().getDate("firstLogin"));
-            user.setLastLogin(this.getDataFile().getResultSet().getDate("lastLogin"));
+            
+            timeStamp = this.getDataFile().getResultSet().getTimestamp("firstLogin");
+            user.setFirstLogin((timeStamp == null) ? null : new Date(timeStamp.getTime()));
+            timeStamp = this.getDataFile().getResultSet().getTimestamp("lastLogin");
+            user.setLastLogin((timeStamp == null) ? null : new Date(timeStamp.getTime()));
 
             this.object2View(user);
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             Logger.getLogger(FraUser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -665,6 +672,8 @@ public class FraUser extends javax.swing.JFrame {
      * @param employee Employee to show
      */
     private void object2View(User user) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+
         comEmployee.setSelectedIndex(this.searchEmployeeIndex(user.getIdEmployee()));
         txtUsername.setText(user.getUsername());
         pasPassword.setText(user.getPassword());
@@ -672,9 +681,11 @@ public class FraUser extends javax.swing.JFrame {
         txtEmail.setText(user.getEmail());
         comUserLevel.setSelectedIndex(user.getUserLevel());
         labFirstLogin.setText("First Login: " 
-                + ((user.getFirstLogin() == null) ? "Never" : "" + user.getFirstLogin()));
+                + ((user.getFirstLogin() == null) ? "Never" : "" 
+                        + dateFormat.format(user.getFirstLogin())));
         labLastLogin.setText("Last Login: " 
-                + ((user.getFirstLogin() == null) ? "Never" : "" + user.getLastLogin()));
+                + ((user.getLastLogin() == null) ? "Never" : "" 
+                        + dateFormat.format(user.getLastLogin())));
     }
 
     /**

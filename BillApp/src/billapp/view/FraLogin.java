@@ -5,6 +5,8 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -151,6 +153,7 @@ public class FraLogin extends javax.swing.JFrame {
             try {
                 BillAppMDI mdiForm = new BillAppMDI(this.getDataFile(), 
                         this.getDataFile().getResultSet().getInt("userLevel"));
+                this.updateFirstLastLogin();
                 mdiForm.setVisible(true);
                 this.setVisible(false);
             } catch (SQLException ex) {
@@ -206,6 +209,38 @@ public class FraLogin extends javax.swing.JFrame {
     }
 
     /**
+     * Update first and last login fields
+     */
+    private void updateFirstLastLogin() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date now = new Date();
+
+        try {
+            String username = this.getDataFile().getResultSet().getString("username");
+            Date firstLogin = this.getDataFile().getResultSet().getDate("firstLogin");
+            Date lastLogin = this.getDataFile().getResultSet().getDate("lastLogin");
+            String query;
+
+            if (firstLogin == null) {
+                query = "UPDATE User SET " 
+                        + "firstLogin = #" + dateFormat.format(now) + "#, "
+                        + "lastLogin = #" + dateFormat.format(now) + "# "
+                        + "WHERE username = '" + username + "'";
+            }
+            else {
+                query = "UPDATE User SET " 
+                        + "lastLogin = #" + dateFormat.format(now) + "# "
+                        + "WHERE username = '" + username + "'";
+            }
+
+            if (this.getDataFile().execute(query)) {
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FraLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -246,4 +281,5 @@ public class FraLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField pasPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
+
 }
