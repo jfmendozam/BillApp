@@ -24,7 +24,7 @@ public class FraLogin extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         
         this.dataFile = new DB();
-        this.dataFile.connectMSAccess("/home/jf/NetBeansProjects/BillApp/Git/BillApp/BillApp/src/persistence/BillDB.accdb");
+        this.dataFile.connectMSAccess("/home/jf/NetBeansProjects/BillApp/Git/BillApp/BillApp/src/billapp/persistence/BillDB.accdb");
         this.selectUser();
     }
 
