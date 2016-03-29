@@ -36,7 +36,6 @@ public class FraForgot extends javax.swing.JFrame {
     public FraForgot(DB dataFile) {
         initComponents();
         this.setLocationRelativeTo(null);
-
         this.dataFile = dataFile;
     }
 
@@ -178,7 +177,7 @@ public class FraForgot extends javax.swing.JFrame {
             String to = txtEmail.getText();
             String from = "juanfmendozam@yahoo.com";
             String host = "smtp.mail.yahoo.com";
-            String pass = "*********";
+            String pass = "F0rdFus10n.yah00";
             int port = 587;
 
             Properties properties = System.getProperties();
@@ -195,7 +194,6 @@ public class FraForgot extends javax.swing.JFrame {
 
             message.setFrom(new InternetAddress(from));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
             message.setSubject("BillApp new password!");
             message.setText("This is a new password for BillApp:"
                     + "\nUsername: " + this.getDataFile().getResultSet().getString("username")
@@ -222,9 +220,9 @@ public class FraForgot extends javax.swing.JFrame {
         int i = 0;
         while ( i < length){
             char c = (char)r.nextInt(255);
-            if ( (c >= '0' && c <='9') || (c >='A' && c <='Z') ) {
+            if ( (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') ) {
                 randomString += c;
-                i ++;
+                i++;
             }
         }
         return randomString;
