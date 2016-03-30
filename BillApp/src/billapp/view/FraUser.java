@@ -24,19 +24,14 @@ public class FraUser extends javax.swing.JFrame {
     private long[] employeeIndexes;
 
     /**
-     * Creates new form FraEmployee
+     * Creates new User form 
      */
     public FraUser() {
         initComponents();
-
-//        this.dataFile = new DB();
-//        this.dataFile.connectMSAccess("/home/jf/NetBeansProjects/BillApp/src/billapp/persistence/BillDB.accdb");
-//        this.loadEmployeeCombo();
-//        this.selectUser();
     }
 
     /**
-     * Creates new form FraEmployee
+     * Creates new User form 
      * @param dataFile Database file
      */
     public FraUser(DB dataFile) {
@@ -776,8 +771,8 @@ public class FraUser extends javax.swing.JFrame {
      */
     private void deleteUser() {
         User user = this.view2Object();
-        String query = "DELETE * FROM User WHERE idEmployee = " 
-                + user.getIdEmployee();
+        String query = "DELETE * FROM User WHERE username = '" 
+                + user.getUsername() + "'";
         if (this.getDataFile().execute(query)) {
             this.selectUser();
         }        

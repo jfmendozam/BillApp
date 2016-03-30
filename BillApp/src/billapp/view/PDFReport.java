@@ -262,6 +262,7 @@ public class PDFReport {
      * @param align Cell alignment
      * @param colspan Cell column span in case you want to merge two or more cells
      * @param font Cell font
+     * @param Background Background color
      */
     public void insertPDFCell(PdfPTable table, String text, int align, int colspan, Font font, BaseColor Background){
         PdfPCell cell = new PdfPCell(new Phrase(text.trim(), font));
