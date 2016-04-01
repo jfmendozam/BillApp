@@ -184,26 +184,28 @@ public class FraLogin extends javax.swing.JFrame {
      */
     private boolean isPassword(String username, String password) {
         boolean correct = false;
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(password.getBytes(), 0, password.length());
-            password = new BigInteger(1, md.digest()).toString(16);
+        if (!(username.equals("") || password.equals(""))) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                md.update(password.getBytes(), 0, password.length());
+                password = new BigInteger(1, md.digest()).toString(16);
 
-            if (this.getDataFile().getResultSet() != null) {
-                this.getDataFile().getResultSet().beforeFirst();
-                while (this.getDataFile().getResultSet().next()) {
-                    if (this.getDataFile().getResultSet().getString("username")
-                            .equals(username)) {
-                        if (this.getDataFile().getResultSet()
-                                .getString("password").equals(password)) {
-                            correct = true;
+                if (this.getDataFile().getResultSet() != null) {
+                    this.getDataFile().getResultSet().beforeFirst();
+                    while (this.getDataFile().getResultSet().next()) {
+                        if (this.getDataFile().getResultSet().getString("username")
+                                .equals(username)) {
+                            if (this.getDataFile().getResultSet()
+                                    .getString("password").equals(password)) {
+                                correct = true;
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
+            } catch (NoSuchAlgorithmException | SQLException ex) {
+                Logger.getLogger(FraLogin.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (NoSuchAlgorithmException | SQLException ex) {
-            Logger.getLogger(FraLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
         return correct;
     }

@@ -27,7 +27,13 @@ public class FraUser extends javax.swing.JFrame {
      * Creates new User form 
      */
     public FraUser() {
-        initComponents();
+//        initComponents();
+//        this.setLocationRelativeTo(null);
+//
+//        this.dataFile = new DB();
+//        this.dataFile.connectMSAccess("/home/jf/NetBeansProjects/BillApp/Git/BillApp/BillApp/src/billapp/persistence/BillDB.accdb");
+//        this.loadEmployeeCombo();
+//        this.selectUser();
     }
 
     /**
@@ -647,7 +653,10 @@ public class FraUser extends javax.swing.JFrame {
         try {
             user.setIdEmployee(this.getDataFile().getResultSet().getLong("idEmployee"));
             user.setUsername(this.getDataFile().getResultSet().getString("username"));
-            user.setPassword(this.getDataFile().getResultSet().getString("password"));
+            user.setPassword(
+                    (this.getDataFile().getResultSet().getString("password") == null) 
+                            ? "" 
+                            : this.getDataFile().getResultSet().getString("password"));
             user.setEmail(this.getDataFile().getResultSet().getString("email"));
             user.setUserLevel(this.getDataFile().getResultSet().getInt("userLevel"));
             
@@ -816,7 +825,7 @@ public class FraUser extends javax.swing.JFrame {
      */
     private void loadEmployeeCombo() {
         comEmployee.removeAllItems();
-        this.setEmployeeIndexes(new long[this.selectCountEmployee()]);
+        this.setEmployeeIndexes(new long[this.selectEmployeeCount()]);
 
         String query = "SELECT id, firstname, lastname FROM Employee ORDER BY firstname";
         if (this.getDataFile().execute(query)) {
@@ -832,7 +841,7 @@ public class FraUser extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(FraUser.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }        
+        }
     }
 
     /**
@@ -855,7 +864,7 @@ public class FraUser extends javax.swing.JFrame {
      * Select number of records in the user table
      * @return Number of records in the user table
      */
-    private int selectCountEmployee() {
+    private int selectEmployeeCount() {
         int count = 0;
         String query = "SELECT count(*) FROM Employee";
         if (this.getDataFile().execute(query)) {

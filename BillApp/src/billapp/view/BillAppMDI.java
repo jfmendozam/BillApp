@@ -68,6 +68,11 @@ public class BillAppMDI extends javax.swing.JFrame {
 
         mnuSell.setMnemonic('o');
         mnuSell.setText("Sell...");
+        mnuSell.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSellActionPerformed(evt);
+            }
+        });
         mnuFile.add(mnuSell);
 
         mnuAdministrator.setText("Administrator");
@@ -89,6 +94,11 @@ public class BillAppMDI extends javax.swing.JFrame {
         mnuAdministrator.add(mnuUsers);
 
         mnuProducts.setText("Products...");
+        mnuProducts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuProductsActionPerformed(evt);
+            }
+        });
         mnuAdministrator.add(mnuProducts);
 
         mnuFile.add(mnuAdministrator);
@@ -163,6 +173,24 @@ public class BillAppMDI extends javax.swing.JFrame {
         FraUser userForm = new FraUser(this.getDataFile());
         userForm.setVisible(true);
     }//GEN-LAST:event_mnuUsersActionPerformed
+
+    /**
+     * Call sell form
+     * @param evt Event
+     */
+    private void mnuSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSellActionPerformed
+        FraSell sellForm = new FraSell(this.getDataFile(), this.getUserLevel());
+        sellForm.setVisible(true);
+    }//GEN-LAST:event_mnuSellActionPerformed
+
+    /**
+     * Call products form
+     * @param evt Event
+     */
+    private void mnuProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuProductsActionPerformed
+        FraProduct productForm = new FraProduct(this.getDataFile());
+        productForm.setVisible(true);
+    }//GEN-LAST:event_mnuProductsActionPerformed
 
     /**
      * Get data file

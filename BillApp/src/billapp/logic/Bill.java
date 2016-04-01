@@ -19,6 +19,13 @@ public class Bill {
      * Default constructor
      */
     public Bill() {
+        this.idBill = 0;
+        this.idClient = 0;
+        this.idSeller = 0;
+        this.saleDate = new Date();
+        this.billDiscount = 0;
+        this.billTax = 0;
+        this.billValue = 0;
     }
 
     /**
